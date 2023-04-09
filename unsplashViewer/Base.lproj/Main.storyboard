@@ -20,6 +20,10 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="bOv-LK-wDZ">
                                 <rect key="frame" x="16" y="59" width="361" height="759"/>
                                 <color key="backgroundColor" name="YP Black"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="jgg-N1-3mT"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Bxi-D2-XDk"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>

@@ -1,6 +1,7 @@
 import UIKit
 
 class ImagesListViewController: UIViewController {
+	
 	@IBOutlet private var tableView: UITableView!
 	//	let gradientLayer = CAGradientLayer()
 	override func viewDidLoad() {
@@ -23,6 +24,7 @@ class ImagesListViewController: UIViewController {
 }
 
 extension ImagesListViewController: UITableViewDataSource {
+	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return photosName.count
 	}
@@ -66,6 +68,7 @@ extension ImagesListViewController: UITableViewDataSource {
 }
 
 extension ImagesListViewController: UITableViewDelegate {
+	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		guard let image = UIImage(named: photosName[indexPath.row]) else {
 			return 0

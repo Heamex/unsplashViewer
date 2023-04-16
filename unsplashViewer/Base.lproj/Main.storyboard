@@ -1,24 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="SFPro_Regular.ttf">
+            <string>SFProDisplay-Regular</string>
+        </array>
+    </customFonts>
     <scenes>
-        <!--View Controller-->
+        <!--ImageList-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="ImageList" id="BYZ-38-t0r" customClass="ImagesListViewController" customModule="unsplashViewer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="bOv-LK-wDZ">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <color key="backgroundColor" name="YP Black"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ImagesListCell" rowHeight="149" id="Jw5-5F-97U" customClass="ImagesListCell" customModule="unsplashViewer" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="149"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Jw5-5F-97U" id="HY7-eh-g0t">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="149"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FCh-pR-U20">
+                                                    <rect key="frame" x="16" y="4" width="361" height="141"/>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5u4-m4-CLZ">
+                                                    <rect key="frame" x="323" y="4" width="54" height="42"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="42" id="FGo-rE-Wzk"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="42" id="y3g-nD-opN"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" image="likeIsActive" title=""/>
+                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="26 августа 2022" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bOb-yZ-7Ld">
+                                                    <rect key="frame" x="24" y="121.33333333333333" width="94" height="15.666666666666671"/>
+                                                    <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="13"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" name="YP Black"/>
+                                            <constraints>
+                                                <constraint firstItem="FCh-pR-U20" firstAttribute="bottom" secondItem="bOb-yZ-7Ld" secondAttribute="bottom" constant="8" id="5p6-qD-M7c"/>
+                                                <constraint firstItem="FCh-pR-U20" firstAttribute="top" secondItem="HY7-eh-g0t" secondAttribute="top" constant="4" id="SyU-B1-8nh"/>
+                                                <constraint firstItem="5u4-m4-CLZ" firstAttribute="top" secondItem="FCh-pR-U20" secondAttribute="top" id="THn-1p-cL7"/>
+                                                <constraint firstItem="5u4-m4-CLZ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="HY7-eh-g0t" secondAttribute="leading" constant="20" symbolic="YES" id="X5k-qf-Our"/>
+                                                <constraint firstItem="FCh-pR-U20" firstAttribute="trailing" secondItem="5u4-m4-CLZ" secondAttribute="trailing" id="Zoy-wI-pi6"/>
+                                                <constraint firstItem="bOb-yZ-7Ld" firstAttribute="leading" secondItem="FCh-pR-U20" secondAttribute="leading" constant="8" id="aX8-Ee-qNd"/>
+                                                <constraint firstAttribute="trailing" secondItem="FCh-pR-U20" secondAttribute="trailing" constant="16" id="bgT-Ed-bdq"/>
+                                                <constraint firstItem="FCh-pR-U20" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="bOb-yZ-7Ld" secondAttribute="trailing" constant="8" id="bzc-x6-iXT"/>
+                                                <constraint firstItem="FCh-pR-U20" firstAttribute="leading" secondItem="HY7-eh-g0t" secondAttribute="leading" constant="16" id="jla-9g-NBQ"/>
+                                                <constraint firstAttribute="bottom" secondItem="FCh-pR-U20" secondAttribute="bottom" constant="4" id="kyb-48-8vq"/>
+                                            </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                    <integer key="value" value="16"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" name="YP Black"/>
+                                        <connections>
+                                            <outlet property="cellImage" destination="FCh-pR-U20" id="8Ga-aq-bH1"/>
+                                            <outlet property="dataLabel" destination="bOb-yZ-7Ld" id="AMi-8L-UYU"/>
+                                            <outlet property="likeButton" destination="5u4-m4-CLZ" id="PGQ-Wd-hii"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="jgg-N1-3mT"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Bxi-D2-XDk"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" name="YP Black"/>
+                        <constraints>
+                            <constraint firstAttribute="top" secondItem="bOv-LK-wDZ" secondAttribute="top" id="3NJ-wg-fmv"/>
+                            <constraint firstItem="bOv-LK-wDZ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="XOz-c7-kyP"/>
+                            <constraint firstAttribute="trailing" secondItem="bOv-LK-wDZ" secondAttribute="trailing" id="hdn-J5-GC3"/>
+                            <constraint firstItem="bOv-LK-wDZ" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="tpQ-da-C9d"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="bOv-LK-wDZ" id="qgz-7f-lsX"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-772" y="20"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="likeIsActive" width="30" height="26"/>
+        <namedColor name="YP Black">
+            <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
 </document>

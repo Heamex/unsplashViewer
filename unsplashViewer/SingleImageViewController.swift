@@ -15,22 +15,44 @@ final class SingleImageViewController: UIViewController {
 		dismiss(animated: true, completion: nil)
 	}
 	
+	@IBOutlet var imageView: UIImageView!
+	
+	var mainViewController: UIViewController?
+	
 	var image: UIImage! {
 		didSet {
-			guard isViewLoaded else { return }
+			guard let image = image, isViewLoaded else { return }
 			imageView.image = image
+			rescaleAndCenterImageInScrollView(image: image)
 		}
 	}
 	
-	@IBOutlet var imageView: UIImageView!
-	var mainViewController: UIViewController?
-	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
 		imageView.image = image
 		mainViewController = ImagesListViewController()
 		scrollView.minimumZoomScale = 0.1
 		scrollView.maximumZoomScale = 1.25
+		guard let image = image else { return }
+		rescaleAndCenterImageInScrollView(image: image)
+	}
+	
+	private func rescaleAndCenterImageInScrollView(image: UIImage) {
+		let minZoomScale = scrollView.minimumZoomScale
+		let maxZoomScale = scrollView.maximumZoomScale
+		view.layoutIfNeeded()
+		let visibleRectSize = scrollView.bounds.size
+		let imageSize = image.size
+		let hScale = visibleRectSize.width / imageSize.width
+		let vScale = visibleRectSize.height / imageSize.height
+		let scale = min(maxZoomScale, max(minZoomScale, max(hScale, vScale)))
+		scrollView.setZoomScale(scale, animated: false)
+		scrollView.layoutIfNeeded()
+		let newContentSize = scrollView.contentSize
+		let x = (newContentSize.width - visibleRectSize.width) / 2
+		let y = (newContentSize.height - visibleRectSize.height) / 2
+		scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
 	}
 	
 }

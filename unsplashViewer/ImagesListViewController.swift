@@ -3,6 +3,8 @@ import UIKit
 class ImagesListViewController: UIViewController {
 	@IBOutlet private var tableView: UITableView!
 	//	let gradientLayer = CAGradientLayer()
+	private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
@@ -10,6 +12,18 @@ class ImagesListViewController: UIViewController {
 	
 	override var preferredStatusBarStyle: UIStatusBarStyle {
 		return .lightContent
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.identifier == ShowSingleImageSegueIdentifier {
+			let viewController = segue.destination as! SingleImageViewController
+			let indexPath = sender as! IndexPath
+			let image = UIImage(named: photosName[indexPath.row])
+			_ = viewController.view
+			viewController.imageView.image = image
+		} else {
+			super.prepare(for: segue, sender: sender)
+		}
 	}
 	
 	private let photosName :[String] = Array(0..<20).map{"\($0)"}
@@ -77,4 +91,9 @@ extension ImagesListViewController: UITableViewDelegate {
 		let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
 		return cellHeight
 	}
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		performSegue(withIdentifier: ShowSingleImageSegueIdentifier, sender: indexPath)
+	}
 }
+

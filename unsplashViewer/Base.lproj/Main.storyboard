@@ -32,6 +32,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="132"/>
                                     </imageView>
                                 </subviews>
+                                <color key="backgroundColor" name="YP Black"/>
                                 <constraints>
                                     <constraint firstItem="0GM-nt-fVX" firstAttribute="leading" secondItem="Z77-6S-bgg" secondAttribute="leading" id="Zgb-v4-xux"/>
                                     <constraint firstItem="0GM-nt-fVX" firstAttribute="top" secondItem="Z77-6S-bgg" secondAttribute="top" id="uFg-dO-hJl"/>
@@ -44,6 +45,21 @@
                                     <outlet property="delegate" destination="sH2-Wd-5hi" id="ctJ-Nc-Fn5"/>
                                 </connections>
                             </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P7W-MZ-4mA">
+                                <rect key="frame" x="171.66666666666666" y="750" width="50" height="50"/>
+                                <color key="backgroundColor" name="YP Black"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="4ZN-lr-t50"/>
+                                    <constraint firstAttribute="height" constant="50" id="hU9-Yw-hYT"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="Sharing">
+                                    <color key="titleColor" name="YP Black"/>
+                                </state>
+                                <connections>
+                                    <action selector="didTapShareButton:" destination="sH2-Wd-5hi" eventType="touchUpInside" id="T6l-9s-xzU"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xjK-bd-lPB">
                                 <rect key="frame" x="8" y="8" width="48" height="48"/>
                                 <constraints>
@@ -62,14 +78,17 @@
                         <constraints>
                             <constraint firstItem="Z77-6S-bgg" firstAttribute="top" secondItem="a3h-0S-bS4" secondAttribute="top" id="7z2-bl-H67"/>
                             <constraint firstItem="xjK-bd-lPB" firstAttribute="leading" secondItem="rc7-dH-FEW" secondAttribute="leading" constant="8" id="GJ2-J2-99u"/>
+                            <constraint firstItem="P7W-MZ-4mA" firstAttribute="centerX" secondItem="a3h-0S-bS4" secondAttribute="centerX" id="HWE-qN-xxd"/>
                             <constraint firstItem="rc7-dH-FEW" firstAttribute="trailing" secondItem="Z77-6S-bgg" secondAttribute="trailing" id="NoU-kA-6S8"/>
                             <constraint firstItem="xjK-bd-lPB" firstAttribute="top" secondItem="rc7-dH-FEW" secondAttribute="top" constant="8" id="Uze-Mg-2Oo"/>
                             <constraint firstItem="Z77-6S-bgg" firstAttribute="bottom" secondItem="a3h-0S-bS4" secondAttribute="bottom" id="eWc-GD-Bd1"/>
+                            <constraint firstItem="rc7-dH-FEW" firstAttribute="bottom" secondItem="P7W-MZ-4mA" secondAttribute="bottom" constant="52" id="m7l-jm-gIb"/>
                             <constraint firstItem="Z77-6S-bgg" firstAttribute="leading" secondItem="rc7-dH-FEW" secondAttribute="leading" id="tHu-bk-Vmx"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="7Rv-De-uVZ"/>
                     <connections>
+                        <outlet property="ShareButton" destination="P7W-MZ-4mA" id="oj9-Tw-yif"/>
                         <outlet property="imageView" destination="0GM-nt-fVX" id="hfL-h8-jBA"/>
                         <outlet property="scrollView" destination="Z77-6S-bgg" id="PVA-3b-3Hp"/>
                     </connections>
@@ -210,14 +229,14 @@
                                 <color key="textColor" name="YP Gray"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g3F-O8-raH">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g3F-O8-raH">
                                 <rect key="frame" x="345" y="82" width="24" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="YFM-C8-ZXG"/>
                                     <constraint firstAttribute="width" constant="24" id="c5h-rS-VJs"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="logout"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="logout"/>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_photo" translatesAutoresizingMaskIntoConstraints="NO" id="M3p-gf-ern">
                                 <rect key="frame" x="16" y="59" width="70" height="70"/>
@@ -258,6 +277,7 @@
     <resources>
         <image name="0" width="200" height="132"/>
         <image name="Backward" width="24" height="24"/>
+        <image name="Sharing" width="31" height="30"/>
         <image name="likeIsActive" width="30" height="26"/>
         <image name="logout" width="20" height="22"/>
         <image name="tab_editorial_active" width="30" height="30"/>

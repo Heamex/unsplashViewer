@@ -10,10 +10,16 @@ import UIKit
 final class SingleImageViewController: UIViewController {
 	
 	@IBOutlet var scrollView: UIScrollView!
-	
+	@IBOutlet var ShareButton: UIButton!
 	@IBAction func didTapBackButton(_ sender: Any) {
 		dismiss(animated: true, completion: nil)
 	}
+	@IBAction func didTapShareButton(_ sender: Any) {
+		let activityViewController = UIActivityViewController(activityItems: [imageView.image as Any], applicationActivities: nil)
+		
+		present(activityViewController, animated: true, completion: nil)
+	}
+	
 	
 	@IBOutlet var imageView: UIImageView!
 	
@@ -31,6 +37,7 @@ final class SingleImageViewController: UIViewController {
 		super.viewDidLoad()
 		
 		imageView.image = image
+		ShareButton.layer.cornerRadius = 25
 		mainViewController = ImagesListViewController()
 		scrollView.minimumZoomScale = 0.1
 		scrollView.maximumZoomScale = 1.25

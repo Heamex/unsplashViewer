@@ -42,23 +42,16 @@ extension ImagesListViewController: UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
-		
 		guard let imageListCell = cell as? ImagesListCell else {
 			return UITableViewCell()
 		}
-		
 		configCell(for: imageListCell, at: indexPath)
-		
 		return imageListCell
 	}
 	
 	func configCell(for cell: ImagesListCell, at indexPath: IndexPath) {
 		let imageName = photosName[indexPath.row]
-		
-		guard let image = UIImage(named: imageName) else {
-			return
-		}
-		
+		guard let image = UIImage(named: imageName) else { return }
 		cell.cellImage.image = image
 		cell.dataLabel.text = dateFormatter.string(from: Date())
 		if indexPath.row.isMultiple(of: 2) {

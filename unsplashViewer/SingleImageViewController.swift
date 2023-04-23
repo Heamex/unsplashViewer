@@ -9,20 +9,20 @@ import UIKit
 
 final class SingleImageViewController: UIViewController {
 	
-	@IBOutlet var scrollView: UIScrollView!
-	@IBOutlet var ShareButton: UIButton!
-	@IBAction func didTapBackButton(_ sender: Any) {
+	@IBOutlet private  var scrollView: UIScrollView!
+	@IBOutlet private var ShareButton: UIButton!
+	@IBAction private func didTapBackButton(_ sender: Any) {
 		dismiss(animated: true, completion: nil)
 	}
-	@IBAction func didTapShareButton(_ sender: Any) {
+	@IBAction private func didTapShareButton(_ sender: Any) {
 		let activityViewController = UIActivityViewController(activityItems: [imageView.image as Any], applicationActivities: nil)
 		present(activityViewController, animated: true, completion: nil)
 	}
 	
 	
-	@IBOutlet var imageView: UIImageView!
+	@IBOutlet private var imageView: UIImageView!
 	
-	var mainViewController: UIViewController?
+	private var mainViewController: UIViewController?
 	var image: UIImage! {
 		didSet {
 			guard let image = image, isViewLoaded else { return }

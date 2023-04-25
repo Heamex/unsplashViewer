@@ -292,31 +292,54 @@
             </objects>
             <point key="canvasLocation" x="-3027" y="337"/>
         </scene>
-        <!--View Controller-->
+        <!--Web View View Controller-->
         <scene sceneID="Z6Z-FL-8v4">
             <objects>
-                <viewController id="rAi-83-5Dh" sceneMemberID="viewController">
+                <viewController id="rAi-83-5Dh" customClass="WebViewViewController" customModule="unsplashViewer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GHx-o3-vht">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <wkWebView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PgA-UG-s8j">
-                                <rect key="frame" x="41" y="111" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PgA-UG-s8j">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ih-Qv-Gql">
+                                <rect key="frame" x="8" y="16" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="48" id="18i-om-DYp"/>
+                                    <constraint firstAttribute="height" constant="48" id="bec-MU-r5F"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="Backward"/>
+                                <connections>
+                                    <action selector="didTapBackButton:" destination="rAi-83-5Dh" eventType="touchUpInside" id="PDv-wR-74z"/>
+                                    <action selector="didTapBackButton:" destination="sH2-Wd-5hi" eventType="touchUpInside" id="Zbh-wd-XbQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="eZJ-i5-P7D"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="PgA-UG-s8j" secondAttribute="trailing" id="IQ8-RA-7lk"/>
+                            <constraint firstItem="PgA-UG-s8j" firstAttribute="top" secondItem="GHx-o3-vht" secondAttribute="top" id="Z4u-Cx-tHy"/>
+                            <constraint firstItem="PgA-UG-s8j" firstAttribute="leading" secondItem="GHx-o3-vht" secondAttribute="leading" id="dk0-mP-zZ8"/>
+                            <constraint firstItem="8ih-Qv-Gql" firstAttribute="top" secondItem="PgA-UG-s8j" secondAttribute="topMargin" constant="8" id="hbj-ii-Pzb"/>
+                            <constraint firstItem="8ih-Qv-Gql" firstAttribute="leading" secondItem="PgA-UG-s8j" secondAttribute="leading" constant="8" id="jUW-7r-YkD"/>
+                            <constraint firstAttribute="bottom" secondItem="PgA-UG-s8j" secondAttribute="bottom" id="yql-kX-rh5"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="webView" destination="PgA-UG-s8j" id="ntF-K7-gVt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Evr-g8-dFc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1538" y="337"/>
+            <point key="canvasLocation" x="-1538.1679389312976" y="336.61971830985919"/>
         </scene>
     </scenes>
     <resources>

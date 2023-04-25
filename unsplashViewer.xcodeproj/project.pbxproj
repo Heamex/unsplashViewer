@@ -11,6 +11,7 @@
 		DE1E57AB29EB2B2A00A6EBF8 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1E57AA29EB2B2A00A6EBF8 /* ImagesListCell.swift */; };
 		DE1E57AE29EB514B00A6EBF8 /* SFPro_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE1E57AD29EB514B00A6EBF8 /* SFPro_Regular.ttf */; };
 		DE2017E129F850E2009C4976 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2017E029F850E2009C4976 /* AuthViewController.swift */; };
+		DE2017E429F85479009C4976 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2017E329F85479009C4976 /* WebViewViewController.swift */; };
 		DE3DBCAB29F5B41400727600 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3DBCAA29F5B41400727600 /* Constants.swift */; };
 		DEA8505329EC7D8600AB6BCE /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA8505229EC7D8600AB6BCE /* ProfileViewController.swift */; };
 		DEA8505529EC835100AB6BCE /* SFPro_Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DEA8505429EC835100AB6BCE /* SFPro_Bold.ttf */; };
@@ -27,6 +28,7 @@
 		DE1E57AA29EB2B2A00A6EBF8 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		DE1E57AD29EB514B00A6EBF8 /* SFPro_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SFPro_Regular.ttf; sourceTree = "<group>"; };
 		DE2017E029F850E2009C4976 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
+		DE2017E329F85479009C4976 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		DE3DBCAA29F5B41400727600 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		DEA8505229EC7D8600AB6BCE /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		DEA8505429EC835100AB6BCE /* SFPro_Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SFPro_Bold.ttf; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 			isa = PBXGroup;
 			children = (
 				DE2017E029F850E2009C4976 /* AuthViewController.swift */,
+				DE2017E329F85479009C4976 /* WebViewViewController.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -184,6 +187,7 @@
 				DE2017E129F850E2009C4976 /* AuthViewController.swift in Sources */,
 				DE3DBCAB29F5B41400727600 /* Constants.swift in Sources */,
 				DE1C6A3529EDAA9B006555B7 /* SingleImageViewController.swift in Sources */,
+				DE2017E429F85479009C4976 /* WebViewViewController.swift in Sources */,
 				DEC749C629CB7BF1006FD1A6 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

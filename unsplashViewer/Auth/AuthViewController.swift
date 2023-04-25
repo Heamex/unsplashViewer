@@ -8,5 +8,8 @@
 import UIKit
 
 final class AuthViewController: UIViewController{
+	let segIdentidier: String = "ShowWebView"
 	
+	@IBAction private func LogInButtonBressed(_ sender: Any) {
+	}
 }

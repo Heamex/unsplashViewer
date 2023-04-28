@@ -8,12 +8,19 @@
 import UIKit
 import WebKit
 
+protocol WebViewViewControllerDelegate: AnyObject {
+	func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String)
+	func webViewViewControllerDidCancel(_ vc: WebViewViewController)
+}
+
 final class WebViewViewController: UIViewController {
 	
 	@IBAction func didTapBackButton(_ sender: Any) {
-		dismiss(animated: true)
+		delegate?.webViewViewControllerDidCancel(self)
 	}
 	@IBOutlet private var webView: WKWebView!
+	
+	weak var delegate: WebViewViewControllerDelegate?
 	
 	
 	override func viewDidLoad() {
@@ -40,7 +47,7 @@ extension WebViewViewController: WKNavigationDelegate {
 		decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
 	) {
 		if let code = code(from: navigationAction) {
-			//TODO: process code
+			delegate?.webViewViewController(self, didAuthenticateWithCode: code)
 			decisionHandler(.cancel)
 		} else {
 			decisionHandler(.allow)

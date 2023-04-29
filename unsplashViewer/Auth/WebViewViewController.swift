@@ -38,10 +38,19 @@ final class WebViewViewController: UIViewController {
 		progressView.progress = 0.3
 		
 		webView.navigationDelegate = self
+	}
+	
+	override func viewWillAppear(_ animated: Bool) {
 		webView.addObserver(self,
 							forKeyPath: #keyPath(WKWebView.estimatedProgress),
 							options: .new,
 							context: nil)
+	}
+	
+	override func viewDidDisappear(_ animated: Bool) {
+		webView.removeObserver(self,
+							   forKeyPath: #keyPath(WKWebView.estimatedProgress),
+							   context: nil)
 	}
 	
 	override func observeValue(forKeyPath keyPath: String?,
@@ -79,11 +88,11 @@ extension WebViewViewController: WKNavigationDelegate {
 	
 	private func code(from navigationAction: WKNavigationAction) -> String? {
 		if
-		let url = navigationAction.request.url,
-		let urlComponents = URLComponents(string: url.absoluteString),
-		urlComponents.path == "/oauth/authorize/native",
-		let items = urlComponents.queryItems,
-		let codeItem = items.first(where: { $0.name == "code" })
+			let url = navigationAction.request.url,
+			let urlComponents = URLComponents(string: url.absoluteString),
+			urlComponents.path == "/oauth/authorize/native",
+			let items = urlComponents.queryItems,
+			let codeItem = items.first(where: { $0.name == "code" })
 		{
 			return codeItem.value
 		} else {

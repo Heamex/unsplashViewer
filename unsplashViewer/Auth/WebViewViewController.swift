@@ -19,6 +19,7 @@ final class WebViewViewController: UIViewController {
 		delegate?.webViewViewControllerDidCancel(self)
 	}
 	@IBOutlet private var webView: WKWebView!
+	@IBOutlet private var progressView: UIProgressView!
 	
 	weak var delegate: WebViewViewControllerDelegate?
 	
@@ -34,8 +35,30 @@ final class WebViewViewController: UIViewController {
 		let url = urlComponents.url!
 		let request = URLRequest(url: url)
 		webView.load(request)
+		progressView.progress = 0.3
 		
 		webView.navigationDelegate = self
+		webView.addObserver(self,
+							forKeyPath: #keyPath(WKWebView.estimatedProgress),
+							options: .new,
+							context: nil)
+	}
+	
+	override func observeValue(forKeyPath keyPath: String?,
+							   of object: Any?,
+							   change: [NSKeyValueChangeKey : Any]?,
+							   context: UnsafeMutableRawPointer?
+	) {
+		if keyPath == #keyPath(WKWebView.estimatedProgress) {
+			updateProgress()
+		} else {
+			super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+		}
+	}
+	
+	func updateProgress() {
+		progressView.progress = Float(webView.estimatedProgress)
+		progressView.isHidden = fabs(webView.estimatedProgress - 1) <= 0.0001
 	}
 	
 }

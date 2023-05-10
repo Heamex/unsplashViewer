@@ -8,6 +8,12 @@
 import UIKit
 
 final class AuthViewController: UIViewController {
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		print(UserDefaults.standard.object(forKey: "OAuth2Token"))
+	}
+	
 	let ShowWebViewSegueIdentifier: String = "ShowWebView"
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?){
@@ -27,8 +33,17 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
 	func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-		//TODO: process code
-	}
+			let oauth2Service = OAuth2Service()
+			oauth2Service.fetchAuthToken(with: code) { result in
+				switch result {
+				case .success(let token):
+					let tokenStorage = OAuth2TokenStorage()
+					tokenStorage.token = token
+				case .failure(let error):
+					print("Failed to fetch auth token: \(error)")
+				}
+			}
+		}
 
 	func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
 		dismiss(animated: true)

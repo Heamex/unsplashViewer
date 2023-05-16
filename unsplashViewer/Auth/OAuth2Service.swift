@@ -9,7 +9,7 @@ import Foundation
 
 class OAuth2Service {
 	
-	func fetchAuthToken(with code: String, completion: @escaping (Result<String, Error>) -> Void) {
+	func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
 		let urlString = "https://unsplash.com/oauth/token"
 		guard let url = URL(string: urlString) else {
 			completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))

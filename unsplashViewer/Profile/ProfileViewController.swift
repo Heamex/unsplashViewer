@@ -68,8 +68,6 @@ final class ProfileViewController: UIViewController {
 		nickNameLabel.textColor = UIColor(named: "YP Gray")
 		
 		NSLayoutConstraint.activate([
-//			nickNameLabel.widthAnchor.constraint(equalToConstant: 235), УДАЛИТЬ!!
-//			nickNameLabel.heightAnchor.constraint(equalToConstant: 18),
 			nickNameLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: 8),
 			nickNameLabel.leadingAnchor.constraint(equalTo: self.nameLabel.leadingAnchor)])
 		self.nickNameLabel = nickNameLabel

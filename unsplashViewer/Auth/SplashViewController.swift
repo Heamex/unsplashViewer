@@ -24,6 +24,7 @@ final class SplashViewController: UIViewController {
 		}
 	}
 	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
 		setNeedsStatusBarAppearanceUpdate()
 	}
 	
@@ -60,7 +61,7 @@ extension SplashViewController: AuthViewControllerDelegate {
 			self.fetchOAuthToken(code)
 		}
 	}
-
+	
 	private func fetchOAuthToken(_ code: String) {
 		oauth2Service.fetchOAuthToken(code) { [weak self] result in
 			guard let self = self else { return }

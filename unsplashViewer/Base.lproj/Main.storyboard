@@ -340,7 +340,7 @@
                                     <action selector="didTapBackButton:" destination="sH2-Wd-5hi" eventType="touchUpInside" id="Zbh-wd-XbQ"/>
                                 </connections>
                             </button>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Hz5-G1-9Xs">
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hz5-G1-9Xs">
                                 <rect key="frame" x="0.0" y="64" width="393" height="4"/>
                                 <color key="progressTintColor" name="YP Black"/>
                             </progressView>

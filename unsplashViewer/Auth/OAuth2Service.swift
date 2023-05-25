@@ -9,6 +9,10 @@ import Foundation
 
 class OAuth2Service {
 	
+	private let urlSession = URLSession.shared
+	private var task: URLSessionTask?
+	private var lastCode: String?
+	
 	func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
 		let urlString = "https://unsplash.com/oauth/token"
 		guard let url = URL(string: urlString) else {

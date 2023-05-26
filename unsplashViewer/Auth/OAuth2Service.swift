@@ -15,30 +15,42 @@ class OAuth2Service {
 	
 	func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
 		assert(Thread.isMainThread)
+		if lastCode == code { return }
+		task?.cancel()
+		lastCode = code
+		
 		guard let request = makeRequest(code: code) else {
 			completion(.failure(NSError(domain: "Invalid URL", code: -1)))
 			return
 		}
-		
-		urlSession.dataTask(with: request) { data, response, error in
-			guard let httpResponse = response as? HTTPURLResponse,
-				  (200...299).contains(httpResponse.statusCode),
-				  let data = data else {
-				completion(.failure(error ?? NSError(domain: "Unexpected error", code: -1, userInfo: nil)))
-				return
-			}
-			
-			do {
-				let tokenResponse = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
-				let token = tokenResponse.accessToken
-				
-				DispatchQueue.main.async {
-					completion(.success(token))
+		let task = urlSession.dataTask(with: request) { data, response, error in
+			DispatchQueue.main.async {
+				guard let httpResponse = response as? HTTPURLResponse,
+					  (200...299).contains(httpResponse.statusCode),
+					  let data = data else {
+					completion(.failure(error ?? NSError(domain: "Unexpected error", code: -1, userInfo: nil)))
+					return
 				}
-			} catch {
-				completion(.failure(error))
+				do {
+					let tokenResponse = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
+					let token = tokenResponse.accessToken
+					
+					DispatchQueue.main.async {
+						completion(.success(token))
+					}
+				}
+				catch {
+					completion(.failure(error))
+				}
+				self.task = nil
+				if error != nil {
+					self.lastCode = nil
+				}
 			}
-		}.resume()
+		}
+		self.task = task
+		task.resume()
+		
 	}
 	
 	private func makeRequest(code: String) -> URLRequest? {

@@ -13,12 +13,11 @@ class OAuth2TokenStorage {
 	
 	var token: String? {
 		get {
-			print("Token key has been taken: \(UserDefaults.standard.string(forKey: tokenKey) ?? "ERROR")")
 			return UserDefaults.standard.string(forKey: tokenKey)
 		}
 		set {
 			UserDefaults.standard.set(newValue, forKey: tokenKey)
-			print("New token key is: \(newValue ?? "ERROR")")
+			print("New token value is: \(newValue ?? "ERROR")")
 		}
 	}
 }

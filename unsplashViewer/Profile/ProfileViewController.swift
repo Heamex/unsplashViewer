@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol ProfileViewControllerDelegate: AnyObject {
+	func fetchProfile(_ token:String, completeon: @escaping (Result<Profile, Error>) -> Void)
+}
+
 final class ProfileViewController: UIViewController {
 	
 	override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -16,17 +20,42 @@ final class ProfileViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		crateProfileImage()
-		createNameLabel(name: "Екатерина Новикова")
-		createNicknameLabel(with: "@ekaterina_nov")
-		createUserInfoLabel(with: "Hello, world!")
+		createNameLabel(name: "******** ********")
+		createNicknameLabel(with: "@********")
+		createUserInfoLabel(with: "")
 		createExitButton()
+		delegate = ProfileService()
+		fetchProfile()
 	}
+	
+	private var delegate: ProfileViewControllerDelegate?
+	private var authToken = OAuth2TokenStorage().token
 	
 	private var imageView: UIImageView!
 	private var nameLabel: UILabel!
 	private var nickNameLabel: UILabel!
 	private var userInfoLabel: UILabel!
 	private var exitButton: UIButton!
+	
+	private func fetchProfile() {
+		guard let authToken = authToken else { return }
+		delegate?.fetchProfile(authToken) { [weak self] result in
+			guard let self = self else { return }
+			switch result {
+			case .success(let profile):
+				self.nameLabel.text = profile.name
+				self.nickNameLabel.text = profile.loginName
+				self.userInfoLabel.text = profile.bio
+			case .failure(let error):
+				// TODO: - [Sprint 11]
+				print(" case failure ")
+				print(" error: \(error) ")
+				break
+			}
+		}
+	}
+	
+	// MARK: - Верстка экрана
 	
 	private func crateProfileImage() {
 		let imageView = UIImageView(image: UIImage(named: "user_photo"))
@@ -51,10 +80,9 @@ final class ProfileViewController: UIViewController {
 		nameLabel.textColor = .white
 		
 		NSLayoutConstraint.activate([
-//			nameLabel.widthAnchor.constraint(equalToConstant: 235), НА УДАЛЕНИЕ
-//			nameLabel.heightAnchor.constraint(equalToConstant: 18),
 			nameLabel.topAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: 8),
-			nameLabel.leadingAnchor.constraint(equalTo: self.imageView.leadingAnchor)])
+			nameLabel.leadingAnchor.constraint(equalTo: self.imageView.leadingAnchor),
+			nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)])
 		self.nameLabel = nameLabel
 	}
 	
@@ -69,7 +97,10 @@ final class ProfileViewController: UIViewController {
 		
 		NSLayoutConstraint.activate([
 			nickNameLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: 8),
-			nickNameLabel.leadingAnchor.constraint(equalTo: self.nameLabel.leadingAnchor)])
+			nickNameLabel.leadingAnchor.constraint(equalTo: self.nameLabel.leadingAnchor),
+			nickNameLabel .heightAnchor.constraint(equalToConstant: 20),
+			nickNameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+		])
 		self.nickNameLabel = nickNameLabel
 	}
 	
@@ -83,10 +114,9 @@ final class ProfileViewController: UIViewController {
 		userInfoLabel.textColor = .white
 		
 		NSLayoutConstraint.activate([
-//			userInfoLabel.widthAnchor.constraint(equalToConstant: 235), УДАЛИТЬ!!
-//			userInfoLabel.heightAnchor.constraint(equalToConstant: 18),
 			userInfoLabel.topAnchor.constraint(equalTo: self.nickNameLabel.bottomAnchor, constant: 8),
-			userInfoLabel.leadingAnchor.constraint(equalTo: self.nameLabel.leadingAnchor)])
+			userInfoLabel.leadingAnchor.constraint(equalTo: self.nameLabel.leadingAnchor),
+			userInfoLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)])
 		self.userInfoLabel = userInfoLabel
 	}
 	

@@ -26,6 +26,7 @@
 		DEC749CB29CB7BF1006FD1A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEC749C929CB7BF1006FD1A6 /* Main.storyboard */; };
 		DEC749CD29CB7BF1006FD1A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEC749CC29CB7BF1006FD1A6 /* Assets.xcassets */; };
 		DEC749D029CB7BF1006FD1A6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEC749CE29CB7BF1006FD1A6 /* LaunchScreen.storyboard */; };
+		DED216152A23BBD200D18FFB /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED216142A23BBD200D18FFB /* ProfileService.swift */; };
 		DEDB4F2C2A214235004E2082 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEDB4F2B2A214235004E2082 /* UIBlockingProgressHUD.swift */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +51,7 @@
 		DEC749CC29CB7BF1006FD1A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DEC749CF29CB7BF1006FD1A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DEC749D129CB7BF1006FD1A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DED216142A23BBD200D18FFB /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		DEDB4F2B2A214235004E2082 /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -128,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				DEA8505229EC7D8600AB6BCE /* ProfileViewController.swift */,
+				DED216142A23BBD200D18FFB /* ProfileService.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -233,6 +236,7 @@
 				DE2017E429F85479009C4976 /* WebViewViewController.swift in Sources */,
 				DEC749C629CB7BF1006FD1A6 /* SceneDelegate.swift in Sources */,
 				DEDB4F2C2A214235004E2082 /* UIBlockingProgressHUD.swift in Sources */,
+				DED216152A23BBD200D18FFB /* ProfileService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

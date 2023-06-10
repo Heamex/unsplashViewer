@@ -13,6 +13,31 @@ class OAuth2Service {
 	private var task: URLSessionTask?
 	private var lastCode: String?
 	
+	private func makeRequest(code: String) -> URLRequest? {
+		let urlString = "https://unsplash.com/oauth/token"
+		guard let url = URL(string: urlString) else {
+			return nil
+		}
+		
+		var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+		components?.queryItems = [
+			URLQueryItem(name: "client_id", value: AccessKey),
+			URLQueryItem(name: "client_secret", value: SecretKey),
+			URLQueryItem(name: "redirect_uri", value: RedirectURI),
+			URLQueryItem(name: "code", value: code),
+			URLQueryItem(name: "grant_type", value: "authorization_code")
+		]
+		
+		guard let requestUrl = components?.url else {
+			return nil
+		}
+		
+		var request = URLRequest(url: requestUrl)
+		request.httpMethod = "POST"
+		
+		return request
+	}
+	
 	func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
 		assert(Thread.isMainThread)
 		if lastCode == code { return }
@@ -53,28 +78,5 @@ class OAuth2Service {
 		
 	}
 	
-	private func makeRequest(code: String) -> URLRequest? {
-		let urlString = "https://unsplash.com/oauth/token"
-		guard let url = URL(string: urlString) else {
-			return nil
-		}
-		
-		var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-		components?.queryItems = [
-			URLQueryItem(name: "client_id", value: AccessKey),
-			URLQueryItem(name: "client_secret", value: SecretKey),
-			URLQueryItem(name: "redirect_uri", value: RedirectURI),
-			URLQueryItem(name: "code", value: code),
-			URLQueryItem(name: "grant_type", value: "authorization_code")
-		]
-		
-		guard let requestUrl = components?.url else {
-			return nil
-		}
-		
-		var request = URLRequest(url: requestUrl)
-		request.httpMethod = "POST"
-		
-		return request
-	}
+	
 }

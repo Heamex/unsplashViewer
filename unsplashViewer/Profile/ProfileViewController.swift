@@ -25,11 +25,13 @@ final class ProfileViewController: UIViewController {
 		createUserInfoLabel(with: "")
 		createExitButton()
 		delegate = ProfileService()
-		fetchProfile()
+		updateProfile(ProfileService.shared.profile)
+		
 	}
 	
 	private var delegate: ProfileViewControllerDelegate?
 	private var authToken = OAuth2TokenStorage().token
+	private var splashViewController: SplashViewController?
 	
 	private var imageView: UIImageView!
 	private var nameLabel: UILabel!
@@ -37,22 +39,11 @@ final class ProfileViewController: UIViewController {
 	private var userInfoLabel: UILabel!
 	private var exitButton: UIButton!
 	
-	private func fetchProfile() {
-		guard let authToken = authToken else { return }
-		delegate?.fetchProfile(authToken) { [weak self] result in
-			guard let self = self else { return }
-			switch result {
-			case .success(let profile):
+	private func updateProfile(_ profile: Profile?) {
+		guard let profile = profile else { return }
 				self.nameLabel.text = profile.name
 				self.nickNameLabel.text = profile.loginName
 				self.userInfoLabel.text = profile.bio
-			case .failure(let error):
-				// TODO: - [Sprint 11]
-				print(" case failure ")
-				print(" error: \(error) ")
-				break
-			}
-		}
 	}
 	
 	// MARK: - Верстка экрана

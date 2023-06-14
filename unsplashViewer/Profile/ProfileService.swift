@@ -39,9 +39,11 @@ struct Profile { // структура, данные из которых зан�
 
 
 final class ProfileService: ProfileViewControllerDelegate {
+	static let shared = ProfileService()
 	private let urlSession = URLSession.shared
 	private var task: URLSessionTask?
 	private let authToken = OAuth2TokenStorage().token
+	var profile: Profile?
 	
 	
 	// Собираем запрос
@@ -56,11 +58,12 @@ final class ProfileService: ProfileViewControllerDelegate {
 	}
 	
 	func fetchProfile(_ token: String, completeon: @escaping (Result<Profile, Error>) -> Void) {
-		let request = makeRequest(token: authToken)
-		guard let request = request else {
-			print ("bad request")
-			return
-		}
+		
+		guard let authToken = authToken else {print("token is empty"); return}
+		guard let url = URL(string: "https://api.unsplash.com/me") else { return }
+		var request = URLRequest(url: url)
+		request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
+		request.httpMethod = "GET"
 		
 		let task = urlSession.dataTask(with: request) { data, response, error in
 			DispatchQueue.main.async {

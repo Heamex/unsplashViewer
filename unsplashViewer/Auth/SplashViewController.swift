@@ -15,6 +15,7 @@ final class SplashViewController: UIViewController {
 	private let oauth2Service = OAuth2Service()
 	private let oauth2TokenStorage = OAuth2TokenStorage()
 	private let profileService = ProfileService.shared
+	private let profileImageService = ProfileImageService.shared
 	
 	
 	
@@ -26,8 +27,11 @@ final class SplashViewController: UIViewController {
 			self.fetchProfile(token) { [weak self] result in
 				guard let self = self else { return }
 				switch result {
-				case .success(let profile):
-					self .profileService.profile = profile
+				case .success(let profileData):
+					self.profileService.profile = profileData
+					var username = profileData.loginName
+					username.removeFirst()
+					profileImageService.fetchProfileImageURL(username: username) { _ in }
 					self.switchToTabBarController()
 				case .failure(let error):
 					print(error.localizedDescription)
@@ -74,14 +78,11 @@ final class SplashViewController: UIViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
 	
-	
-	
 	func fetchProfile(_ token: String, completeon: @escaping (Result<Profile, Error>) -> Void) {
 		
-		guard let authToken = oauth2TokenStorage.token else {print("token is empty"); return}
 		guard let url = URL(string: "https://api.unsplash.com/me") else { return }
 		var request = URLRequest(url: url)
-		request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
+		request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 		request.httpMethod = "GET"
 		
 		let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -140,6 +141,8 @@ extension SplashViewController: AuthViewControllerDelegate {
 					switch result {
 					case .success(let profileData):
 						self.profileService.profile = profileData
+						let username = profileData.loginName
+						ProfileImageService.shared.fetchProfileImageURL(username: username) { _ in }
 						self.switchToTabBarController()
 					case .failure(let error):
 						print(error.localizedDescription)
@@ -149,7 +152,6 @@ extension SplashViewController: AuthViewControllerDelegate {
 			case .failure(let error):
 				UIBlockingProgressHUD.dismiss()
 				print(error.localizedDescription)
-				// TODO [Sprint 11]
 				break
 			}
 		}

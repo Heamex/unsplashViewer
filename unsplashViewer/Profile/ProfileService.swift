@@ -46,18 +46,7 @@ final class ProfileService: ProfileViewControllerDelegate {
 	var profile: Profile?
 	
 	
-	// Собираем запрос
-	private func makeRequest(token: String?) -> URLRequest? {
-		guard let authToken = authToken else {print("token is empty"); return nil}
-		guard let url = URL(string: "https://api.unsplash.com/me") else { return nil }
-		var request = URLRequest(url: url)
-		request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
-		request.httpMethod = "GET"
-		
-		return request
-	}
-	
-	func fetchProfile(_ token: String, completeon: @escaping (Result<Profile, Error>) -> Void) {
+	func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
 		
 		guard let authToken = authToken else {print("token is empty"); return}
 		guard let url = URL(string: "https://api.unsplash.com/me") else { return }
@@ -66,33 +55,30 @@ final class ProfileService: ProfileViewControllerDelegate {
 		request.httpMethod = "GET"
 		
 		let task = urlSession.dataTask(with: request) { data, response, error in
-			DispatchQueue.main.async {
 				guard let httpResponse = response as? HTTPURLResponse else {
-					completeon(.failure(error ?? NSError(domain: "There is no responce", code: 1, userInfo: nil)))
+					completion(.failure(error ?? NSError(domain: "There is no responce", code: 1, userInfo: nil)))
 					return
 				}
 				guard let data = data else {
-					completeon(.failure(error ?? NSError(domain: "There is no data", code: 4, userInfo: nil)))
+					completion(.failure(error ?? NSError(domain: "There is no data", code: 4, userInfo: nil)))
 					return
 				}
 				guard  (200...299).contains(httpResponse.statusCode) else {
-					completeon(.failure(error ?? NSError(domain: "Bad status code.\nResponce is: \(httpResponse.statusCode)\n)", code: 2, userInfo: nil)))
+					completion(.failure(error ?? NSError(domain: "Bad status code.\nResponce is: \(httpResponse.statusCode)\n)", code: 2, userInfo: nil)))
 					return
 				}
 				
-				print()
 				do {
 					let profileResponse = try JSONDecoder().decode(ProfileRowData.self, from: data)
 					let profile = profileResponse.convertData()
 					DispatchQueue.main.async {
-						completeon(.success(profile))
+						completion(.success(profile))
 					}
 				}
 				catch {
-					completeon(.failure(error))
+					completion(.failure(error))
 				}
 				self.task = nil
-			}
 		}
 		task.resume()
 	}

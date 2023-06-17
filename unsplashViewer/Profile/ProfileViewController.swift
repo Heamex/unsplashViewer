@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ProfileViewControllerDelegate: AnyObject {
-	func fetchProfile(_ token:String, completeon: @escaping (Result<Profile, Error>) -> Void)
+	func fetchProfile(_ token:String, completion: @escaping (Result<Profile, Error>) -> Void)
 }
 
 final class ProfileViewController: UIViewController {
@@ -32,6 +32,7 @@ final class ProfileViewController: UIViewController {
 	private var delegate: ProfileViewControllerDelegate?
 	private var authToken = OAuth2TokenStorage().token
 	private var splashViewController: SplashViewController?
+	private var profileImageService = ProfileImageService.shared
 	
 	private var imageView: UIImageView!
 	private var nameLabel: UILabel!
@@ -45,6 +46,15 @@ final class ProfileViewController: UIViewController {
 				self.nickNameLabel.text = profile.loginName
 				self.userInfoLabel.text = profile.bio
 	}
+//	private func checkNewImage(){
+//		func updateImage(firom data:Data) {
+//			self.imageView.image = UIImage(data: data)
+//		}
+//		
+//		if let ImageURL = profileImageService.avatarURL {
+//			
+//		}
+//	}
 	
 	// MARK: - Верстка экрана
 	

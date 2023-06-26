@@ -15,6 +15,7 @@ protocol WebViewViewControllerDelegate: AnyObject {
 
 final class WebViewViewController: UIViewController {
 	
+	private var estimatedProgressObservation: NSKeyValueObservation?
 	@IBAction func didTapBackButton(_ sender: Any) {
 		delegate?.webViewViewControllerDidCancel(self)
 	}
@@ -25,6 +26,15 @@ final class WebViewViewController: UIViewController {
 	
 	
 	override func viewDidLoad() {
+		
+		estimatedProgressObservation = webView.observe(
+			\.estimatedProgress,
+			 options: [],
+			 changeHandler: { [weak self] _, _ in
+				 guard let self = self else { return }
+				 self.updateProgress()
+			 })
+		
 		var urlComponents = URLComponents(string: UnsplashAuthorizeURLString)!
 		urlComponents.queryItems = [
 			URLQueryItem(name: "client_id", value: AccessKey),
@@ -38,31 +48,6 @@ final class WebViewViewController: UIViewController {
 		progressView.progress = 0.3
 		
 		webView.navigationDelegate = self
-	}
-	
-	override func viewWillAppear(_ animated: Bool) {
-		webView.addObserver(self,
-							forKeyPath: #keyPath(WKWebView.estimatedProgress),
-							options: .new,
-							context: nil)
-	}
-	
-	override func viewDidDisappear(_ animated: Bool) {
-		webView.removeObserver(self,
-							   forKeyPath: #keyPath(WKWebView.estimatedProgress),
-							   context: nil)
-	}
-	
-	override func observeValue(forKeyPath keyPath: String?,
-							   of object: Any?,
-							   change: [NSKeyValueChangeKey : Any]?,
-							   context: UnsafeMutableRawPointer?
-	) {
-		if keyPath == #keyPath(WKWebView.estimatedProgress) {
-			updateProgress()
-		} else {
-			super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-		}
 	}
 	
 	func updateProgress() {

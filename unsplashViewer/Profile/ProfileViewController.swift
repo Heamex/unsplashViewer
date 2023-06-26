@@ -11,6 +11,7 @@ protocol ProfileViewControllerDelegate: AnyObject {
 	func fetchProfile(_ token:String, completion: @escaping (Result<Profile, Error>) -> Void)
 }
 
+
 final class ProfileViewController: UIViewController {
 	
 	override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -26,13 +27,46 @@ final class ProfileViewController: UIViewController {
 		createExitButton()
 		delegate = ProfileService()
 		updateProfile(ProfileService.shared.profile)
-		
+		profileImageServiceObserver = NotificationCenter.default
+			.addObserver(
+				forName: ProfileImageService.DidChangeNotification,
+				object: nil,
+				queue: .main
+			) { [weak self] _ in
+				guard let self = self else { return }
+				self.updateAvatar()
+			}
+		updateAvatar()
+	}
+	
+	private func updateAvatar() {
+		guard
+			let profileImageUrl = ProfileImageService.shared.avatarURL,
+			let url = URL(string: profileImageUrl)
+		else { return }
+		let request = URLRequest(url: url)
+		let task = URLSession.shared.dataTask(with: request) { data, response, error in
+			if let error = error {
+				print("Ошибка при загрузке изображения: \(error.localizedDescription)")
+				return
+			}
+			guard let data = data, let image = UIImage(data: data) else {
+				print("не удалось получить изображение профиля")
+				return
+			}
+			DispatchQueue.main.async {
+				self.imageView.image = image
+				
+			}
+		}
+		task.resume()
 	}
 	
 	private var delegate: ProfileViewControllerDelegate?
 	private var authToken = OAuth2TokenStorage().token
 	private var splashViewController: SplashViewController?
 	private var profileImageService = ProfileImageService.shared
+	private var profileImageServiceObserver: NSObjectProtocol?
 	
 	private var imageView: UIImageView!
 	private var nameLabel: UILabel!
@@ -42,21 +76,13 @@ final class ProfileViewController: UIViewController {
 	
 	private func updateProfile(_ profile: Profile?) {
 		guard let profile = profile else { return }
-				self.nameLabel.text = profile.name
-				self.nickNameLabel.text = profile.loginName
-				self.userInfoLabel.text = profile.bio
+		self.nameLabel.text = profile.name
+		self.nickNameLabel.text = profile.loginName
+		self.userInfoLabel.text = profile.bio
 	}
-//	private func checkNewImage(){
-//		func updateImage(firom data:Data) {
-//			self.imageView.image = UIImage(data: data)
-//		}
-//		
-//		if let ImageURL = profileImageService.avatarURL {
-//			
-//		}
-//	}
+}
 	
-	// MARK: - Верстка экрана
+extension ProfileViewController { // MARK: - Верстка экрана
 	
 	private func crateProfileImage() {
 		let imageView = UIImageView(image: UIImage(named: "user_photo"))

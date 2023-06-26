@@ -17,7 +17,7 @@ struct UserResult: Decodable {// структура, для хранения м�
 }
 
 final class ProfileImageService {
-	
+	static let DidChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
 	static let shared = ProfileImageService()
 	private let profileService = ProfileService.shared
 	private (set) var avatarURL:String?
@@ -31,31 +31,18 @@ final class ProfileImageService {
 		request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 		request.httpMethod = "GET"
 		
-		let task = URLSession.shared.dataTask(with: request) { data, response, error in
-			guard let httpResponse = response as? HTTPURLResponse else {
-				completion(.failure(error ?? NSError(domain: "There is no responce", code: 1, userInfo: nil)))
-				return
+		let urlSession = URLSession.shared
+		let task = urlSession.objectTask(for: request, completion: { [weak self] (result: Result<UserResult, Error>) in
+			switch result {
+			case .success(let imageUrl):
+				self?.avatarURL = imageUrl.smallImage()
+			case .failure(let error):
+				print("\(error.localizedDescription)")
 			}
-			guard let data = data else {
-				completion(.failure(error ?? NSError(domain: "There is no data", code: 4, userInfo: nil)))
-				return
-			}
-			guard  (200...299).contains(httpResponse.statusCode) else {
-				completion(.failure(error ?? NSError(domain: "Bad status code.\nResponce is: \(httpResponse.statusCode)\n)", code: 2, userInfo: nil)))
-				return
-			}
-			do {
-				let avatarStruct = try JSONDecoder().decode(UserResult.self, from: data)
-				let avatarUrl = avatarStruct.smallImage()
-				self.avatarURL = avatarUrl
-				completion(.success(avatarUrl))
-			}
-			catch {
-				completion(.failure(error))
-			}
+			})
 			
+			task.resume()
 		}
-		task.resume()
-	}
-	
-}
+										 
+										 }
+										 

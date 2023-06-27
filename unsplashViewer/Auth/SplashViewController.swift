@@ -34,7 +34,7 @@ final class SplashViewController: UIViewController {
 					profileImageService.fetchProfileImageURL(username: username) { _ in }
 					self.switchToTabBarController()
 				case .failure(let error):
-					print(error.localizedDescription)
+					self.showAlert(with: error)
 					UIBlockingProgressHUD.dismiss()
 				}
 			}
@@ -52,14 +52,6 @@ final class SplashViewController: UIViewController {
 		.lightContent
 	}
 	
-	private func switchToTabBarController() {
-		guard let window = UIApplication.shared.windows.first else {
-			fatalError("Invalid Configuration") }
-		let tabBarController = UIStoryboard(name: "Main", bundle: .main)
-			.instantiateViewController(identifier: "TabBarViewController")
-		window.rootViewController = tabBarController
-	}
-	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if segue.identifier == ShowAuthenticationScreenSegueIdentifier {
 			guard
@@ -72,6 +64,38 @@ final class SplashViewController: UIViewController {
 			super.prepare(for: segue, sender: sender)
 		}
 	}
+	
+	private func switchToTabBarController() {
+		guard let window = UIApplication.shared.windows.first else {
+			fatalError("Invalid Configuration") }
+		let tabBarController = UIStoryboard(name: "Main", bundle: .main)
+			.instantiateViewController(identifier: "TabBarViewController")
+		window.rootViewController = tabBarController
+	}
+	
+	func showAlert(with error: Error?) {
+		var message = "Не удалось войти в систему"
+		var isAdvancedAlertMode = true
+		
+		if let error = error {
+			guard isAdvancedAlertMode else { return }
+			message = error.localizedDescription
+		}
+		
+		let alertController = UIAlertController(
+			title: "Что-то пошло не так(",
+			message: message,
+			preferredStyle: .alert
+		)
+		let okAction = UIAlertAction(title: "Ок", style: .default) { _ in
+			alertController.dismiss(animated: true, completion: nil)
+		}
+		
+		alertController.addAction(okAction)
+		
+		present(alertController, animated: true, completion: nil)
+	}
+
 }
 
 
@@ -89,21 +113,22 @@ extension SplashViewController: AuthViewControllerDelegate {
 			DispatchQueue.main.async {
 				guard let httpResponse = response as? HTTPURLResponse else {
 					UIBlockingProgressHUD.dismiss()
+					self.showAlert(with: error)
 					completeon(.failure(error ?? NSError(domain: "There is no responce", code: 1, userInfo: nil)))
 					return
 				}
 				guard let data = data else {
 					UIBlockingProgressHUD.dismiss()
+					self.showAlert(with: error)
 					completeon(.failure(error ?? NSError(domain: "There is no data", code: 4, userInfo: nil)))
 					return
 				}
 				guard  (200...299).contains(httpResponse.statusCode) else {
 					UIBlockingProgressHUD.dismiss()
+					self.showAlert(with: error)
 					completeon(.failure(error ?? NSError(domain: "Bad status code.\nResponce is: \(httpResponse.statusCode)\n)", code: 2, userInfo: nil)))
 					return
 				}
-				
-				print()
 				do {
 					let profileResponse = try JSONDecoder().decode(ProfileRowData.self, from: data)
 					let profile = profileResponse.convertData()
@@ -114,6 +139,7 @@ extension SplashViewController: AuthViewControllerDelegate {
 				}
 				catch {
 					UIBlockingProgressHUD.dismiss()
+					self.showAlert(with: error)
 					completeon(.failure(error))
 				}
 			}
@@ -145,13 +171,13 @@ extension SplashViewController: AuthViewControllerDelegate {
 						ProfileImageService.shared.fetchProfileImageURL(username: username) { _ in }
 						self.switchToTabBarController()
 					case .failure(let error):
-						print(error.localizedDescription)
+						self.showAlert(with: error)
 						UIBlockingProgressHUD.dismiss()
 					}
 				}
 			case .failure(let error):
 				UIBlockingProgressHUD.dismiss()
-				print(error.localizedDescription)
+				self.showAlert(with: error)
 				break
 			}
 		}

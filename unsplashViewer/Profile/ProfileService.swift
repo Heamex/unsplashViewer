@@ -37,7 +37,6 @@ struct Profile { // структура, данные из которых зан�
 	let bio: String?
 }
 
-
 final class ProfileService: ProfileViewControllerDelegate {
 	static let shared = ProfileService()
 	private let urlSession = URLSession.shared
@@ -45,41 +44,34 @@ final class ProfileService: ProfileViewControllerDelegate {
 	private let authToken = OAuth2TokenStorage().token
 	var profile: Profile?
 	
-	
-	func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
-		
-		guard let authToken = authToken else {print("token is empty"); return}
-		guard let url = URL(string: "https://api.unsplash.com/me") else { return }
+	private func requestForProfileInfo() -> URLRequest? { // Формируем запрос на получение данных профиля
+		guard let authToken = authToken else {print("token is empty"); return nil }
+		guard let url = URL(string: "https://api.unsplash.com/me") else { return nil }
 		var request = URLRequest(url: url)
 		request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
 		request.httpMethod = "GET"
+		return request
+	}
+	
+	func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) { // Получаем данные профиля
 		
-		let task = urlSession.dataTask(with: request) { data, response, error in
-				guard let httpResponse = response as? HTTPURLResponse else {
-					completion(.failure(error ?? NSError(domain: "There is no responce", code: 1, userInfo: nil)))
-					return
-				}
-				guard let data = data else {
-					completion(.failure(error ?? NSError(domain: "There is no data", code: 4, userInfo: nil)))
-					return
-				}
-				guard  (200...299).contains(httpResponse.statusCode) else {
-					completion(.failure(error ?? NSError(domain: "Bad status code.\nResponce is: \(httpResponse.statusCode)\n)", code: 2, userInfo: nil)))
-					return
-				}
-				
-				do {
-					let profileResponse = try JSONDecoder().decode(ProfileRowData.self, from: data)
-					let profile = profileResponse.convertData()
-					DispatchQueue.main.async {
-						completion(.success(profile))
-					}
-				}
-				catch {
-					completion(.failure(error))
-				}
-				self.task = nil
+		guard let request = requestForProfileInfo() else {
+			completion(.failure(NSError(domain: "ошибка создания URLRequest", code: 0)))
+			return
 		}
+		
+		let task = urlSession.objectTask(for: request, completion: { [weak self] (result: Result<ProfileRowData,Error>) in
+			
+			switch result {
+			case .success(let profileResponse):
+				let profile = profileResponse.convertData()
+				DispatchQueue.main.async {
+					self?.profile = profile
+				}
+			case .failure(let error):
+				print(error.localizedDescription)
+			}
+		})
 		task.resume()
 	}
 	

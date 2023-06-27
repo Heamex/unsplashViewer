@@ -27,14 +27,12 @@ class OAuth2Service {
 			URLQueryItem(name: "code", value: code),
 			URLQueryItem(name: "grant_type", value: "authorization_code")
 		]
-		
 		guard let requestUrl = components?.url else {
 			return nil
 		}
 		
 		var request = URLRequest(url: requestUrl)
 		request.httpMethod = "POST"
-		
 		return request
 	}
 	
@@ -48,35 +46,23 @@ class OAuth2Service {
 			completion(.failure(NSError(domain: "Invalid URL", code: -1)))
 			return
 		}
-		let task = urlSession.dataTask(with: request) { data, response, error in
-			DispatchQueue.main.async {
-				guard let httpResponse = response as? HTTPURLResponse,
-					  (200...299).contains(httpResponse.statusCode),
-					  let data = data else {
-					completion(.failure(error ?? NSError(domain: "Unexpected error", code: -1, userInfo: nil)))
-					return
-				}
-				do {
-					let tokenResponse = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
-					let token = tokenResponse.accessToken
-					
-					DispatchQueue.main.async {
-						completion(.success(token))
-					}
-				}
-				catch {
-					completion(.failure(error))
-				}
-				self.task = nil
-				if error != nil {
-					self.lastCode = nil
-				}
+		let task = urlSession.objectTask(for: request, completion: { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+			switch result {
+			case .failure(let error):
+					self?.lastCode = nil
+				completion(.failure(NSError(domain: "Не удалось получить токен для входа. Ошибка: \n\(error)", code: -1)))
+			case .success(let tokenResponse):
+				let token = tokenResponse.accessToken
+				OAuth2TokenStorage().token = token
+				completion(.success(token))
 			}
-		}
+			self?.task = nil
+		})
 		self.task = task
 		task.resume()
-		
 	}
 	
-	
 }
+//		let tokenResponse = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
+//		let token = tokenResponse.accessToken
+

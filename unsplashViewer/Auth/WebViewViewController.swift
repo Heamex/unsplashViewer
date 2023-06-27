@@ -24,9 +24,8 @@ final class WebViewViewController: UIViewController {
 	
 	weak var delegate: WebViewViewControllerDelegate?
 	
-	
 	override func viewDidLoad() {
-		
+		super.viewDidLoad()
 		estimatedProgressObservation = webView.observe(
 			\.estimatedProgress,
 			 options: [],
@@ -45,7 +44,7 @@ final class WebViewViewController: UIViewController {
 		let url = urlComponents.url!
 		let request = URLRequest(url: url)
 		webView.load(request)
-		progressView.progress = 0.3
+		progressView.progress = 0.0
 		
 		webView.navigationDelegate = self
 	}

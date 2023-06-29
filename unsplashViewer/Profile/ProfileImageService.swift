@@ -7,6 +7,7 @@
 
 import UIKit
 import ProgressHUD
+import Kingfisher
 
 struct UserResult: Decodable {// структура, для хранения маленькой аватарки
 	let profile_image: profileImage
@@ -39,10 +40,10 @@ final class ProfileImageService {
 			case .failure(let error):
 				print("\(error.localizedDescription)")
 			}
-			})
-			
-			task.resume()
-		}
-										 
-										 }
-										 
+		})
+		
+		task.resume()
+	}
+	
+}
+

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 protocol ProfileViewControllerDelegate: AnyObject {
 	func fetchProfile(_ token:String, completion: @escaping (Result<Profile, Error>) -> Void)
@@ -44,22 +45,8 @@ final class ProfileViewController: UIViewController {
 			let profileImageUrl = ProfileImageService.shared.avatarURL,
 			let url = URL(string: profileImageUrl)
 		else { return }
-		let request = URLRequest(url: url)
-		let task = URLSession.shared.dataTask(with: request) { data, response, error in
-			if let error = error {
-				print("Ошибка при загрузке изображения: \(error.localizedDescription)")
-				return
-			}
-			guard let data = data, let image = UIImage(data: data) else {
-				print("не удалось получить изображение профиля")
-				return
-			}
-			DispatchQueue.main.async {
-				self.imageView.image = image
-				
-			}
-		}
-		task.resume()
+		let processor = RoundCornerImageProcessor(cornerRadius: 70)
+		imageView.kf.setImage(with: url, options: [.processor(processor)])
 	}
 	
 	private var delegate: ProfileViewControllerDelegate?
@@ -81,8 +68,8 @@ final class ProfileViewController: UIViewController {
 		self.userInfoLabel.text = profile.bio
 	}
 }
-	
-extension ProfileViewController { // MARK: - Верстка экрана
+// 		MARK: - Верстка экрана
+extension ProfileViewController {
 	
 	private func crateProfileImage() {
 		let imageView = UIImageView(image: UIImage(named: "user_photo"))

@@ -7,6 +7,7 @@
 
 import UIKit
 import ProgressHUD
+import SwiftKeychainWrapper
 
 final class SplashViewController: UIViewController {
 	
@@ -16,7 +17,6 @@ final class SplashViewController: UIViewController {
 	private let oauth2TokenStorage = OAuth2TokenStorage()
 	private let profileService = ProfileService.shared
 	private let profileImageService = ProfileImageService.shared
-	
 	
 	
 	override func viewDidAppear(_ animated: Bool) {
@@ -38,7 +38,7 @@ final class SplashViewController: UIViewController {
 					UIBlockingProgressHUD.dismiss()
 				}
 			}
-
+			
 		} else {
 			performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
 		}
@@ -75,11 +75,12 @@ final class SplashViewController: UIViewController {
 	
 	func showAlert(with error: Error?) {
 		var message = "Не удалось войти в систему"
-		var isAdvancedAlertMode = true
+		let isAdvancedAlertMode = true
 		
 		if let error = error {
-			guard isAdvancedAlertMode else { return }
-			message = error.localizedDescription
+			if isAdvancedAlertMode {
+				message = error.localizedDescription
+			}
 		}
 		
 		let alertController = UIAlertController(
@@ -95,7 +96,7 @@ final class SplashViewController: UIViewController {
 		
 		present(alertController, animated: true, completion: nil)
 	}
-
+	
 }
 
 

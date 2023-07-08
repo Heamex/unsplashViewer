@@ -133,6 +133,7 @@
 				DEC749C729CB7BF1006FD1A6 /* ImagesListViewController.swift */,
 				DE1E57AA29EB2B2A00A6EBF8 /* ImagesListCell.swift */,
 				DEC749C929CB7BF1006FD1A6 /* Main.storyboard */,
+				DE0E2BDC2A59C50700AEDB9C /* TabBarController.swift */,
 				DE2017E229F852E3009C4976 /* Auth */,
 				DEFF7DBF29FC5F520016208F /* SingleImage */,
 				DEFF7DBE29FC5F410016208F /* Profile */,
@@ -141,7 +142,6 @@
 				DEC749CC29CB7BF1006FD1A6 /* Assets.xcassets */,
 				DEC749CE29CB7BF1006FD1A6 /* LaunchScreen.storyboard */,
 				DEC749D129CB7BF1006FD1A6 /* Info.plist */,
-				DE0E2BDC2A59C50700AEDB9C /* TabBarController.swift */,
 			);
 			path = unsplashViewer;
 			sourceTree = "<group>";

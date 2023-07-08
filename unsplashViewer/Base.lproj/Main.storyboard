@@ -150,11 +150,11 @@
             <objects>
                 <viewController storyboardIdentifier="ImagesListViewController" title="ImageList" id="BYZ-38-t0r" customClass="ImagesListViewController" customModule="unsplashViewer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="769"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="bOv-LK-wDZ">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="769"/>
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <color key="backgroundColor" name="YP Black"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ImagesListCell" rowHeight="149" id="Jw5-5F-97U" customClass="ImagesListCell" customModule="unsplashViewer" customModuleProvider="target">
@@ -240,7 +240,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="O4v-N7-dJD">
             <objects>
-                <tabBarController storyboardIdentifier="TabBarViewController" id="grL-KA-FMY" customClass="TabBarController" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarViewController" id="grL-KA-FMY" customClass="TabBarController" customModule="unsplashViewer" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="eW9-sd-3tN"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" id="oDo-tE-qbH">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
@@ -249,30 +249,10 @@
                         <color key="barTintColor" name="YP Black"/>
                         <color key="selectedImageTintColor" name="YP White"/>
                     </tabBar>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="95r-bU-wzw"/>
-                        <segue destination="y4S-ev-OcA" kind="relationship" relationship="viewControllers" id="t1x-ZM-3fI"/>
-                    </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mmP-WN-JVu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-761" y="285"/>
-        </scene>
-        <!--ProfileViewController-->
-        <scene sceneID="VUT-V3-WIu">
-            <objects>
-                <viewController storyboardIdentifier="ProfileViewController" title="ProfileViewController" id="y4S-ev-OcA" customClass="ProfileViewController" customModule="unsplashViewer" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="vFe-Bv-nli">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="769"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="zVc-Qk-8fK"/>
-                        <color key="backgroundColor" name="YP Black"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="" image="tab_profile_active" id="AD2-NG-vyh"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="KLg-Va-hZM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="153.43511450381678" y="684.50704225352115"/>
         </scene>
         <!--SplashViewController-->
         <scene sceneID="HTF-UN-TQm">
@@ -377,7 +357,6 @@
         <image name="backward_black" width="9" height="16"/>
         <image name="likeIsActive" width="30" height="26"/>
         <image name="tab_editorial_active" width="30" height="30"/>
-        <image name="tab_profile_active" width="30" height="30"/>
         <namedColor name="YP Black">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

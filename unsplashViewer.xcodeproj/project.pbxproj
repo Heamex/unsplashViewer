@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DE0E2BDD2A59C50700AEDB9C /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0E2BDC2A59C50700AEDB9C /* TabBarController.swift */; };
 		DE1C6A3529EDAA9B006555B7 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1C6A3429EDAA9B006555B7 /* SingleImageViewController.swift */; };
 		DE1E57AB29EB2B2A00A6EBF8 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1E57AA29EB2B2A00A6EBF8 /* ImagesListCell.swift */; };
 		DE1E57AE29EB514B00A6EBF8 /* SFPro_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE1E57AD29EB514B00A6EBF8 /* SFPro_Regular.ttf */; };
@@ -35,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DE0E2BDC2A59C50700AEDB9C /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		DE1C6A3429EDAA9B006555B7 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 		DE1E57AA29EB2B2A00A6EBF8 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		DE1E57AD29EB514B00A6EBF8 /* SFPro_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SFPro_Regular.ttf; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 				DEC749CC29CB7BF1006FD1A6 /* Assets.xcassets */,
 				DEC749CE29CB7BF1006FD1A6 /* LaunchScreen.storyboard */,
 				DEC749D129CB7BF1006FD1A6 /* Info.plist */,
+				DE0E2BDC2A59C50700AEDB9C /* TabBarController.swift */,
 			);
 			path = unsplashViewer;
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 				DE79038C2A081C7200BDA691 /* OAuth2TokenStorage.swift in Sources */,
 				DE2B2D5E2A46DF2500BD534B /* URLSessionExtentoin.swift in Sources */,
 				DEC749C829CB7BF1006FD1A6 /* ImagesListViewController.swift in Sources */,
+				DE0E2BDD2A59C50700AEDB9C /* TabBarController.swift in Sources */,
 				DE1E57AB29EB2B2A00A6EBF8 /* ImagesListCell.swift in Sources */,
 				DEA8505329EC7D8600AB6BCE /* ProfileViewController.swift in Sources */,
 				DEC749C429CB7BF1006FD1A6 /* AppDelegate.swift in Sources */,

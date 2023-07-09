@@ -19,7 +19,7 @@ final class SplashViewController: UIViewController {
 	private let oauth2TokenStorage = OAuth2TokenStorage()
 	private let profileService = ProfileService.shared
 	private let profileImageService = ProfileImageService.shared
-	
+	private var currentTask: URLSessionDataTask?
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
@@ -42,7 +42,6 @@ final class SplashViewController: UIViewController {
 			}
 			
 		} else {
-//			performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
 			let authViewController: AuthViewController = storyboard?.instantiateViewController(withIdentifier: "AuthViewController") as! AuthViewController
 			authViewController.delegate = self
 			authViewController.modalPresentationStyle = .fullScreen
@@ -58,19 +57,6 @@ final class SplashViewController: UIViewController {
 		.lightContent
 	}
 	
-//	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//		if segue.identifier == ShowAuthenticationScreenSegueIdentifier {
-//			guard
-//				let navigationController = segue.destination as? UINavigationController,
-//				let viewController = navigationController.viewControllers[0] as? AuthViewController
-//			else { fatalError("Failed to prepare for \(ShowAuthenticationScreenSegueIdentifier)") }
-//			viewController.delegate = self
-//			navigationController.modalPresentationStyle = .fullScreen
-//		} else {
-//			super.prepare(for: segue, sender: sender)
-//		}
-//	}
-	
 	private func switchToTabBarController() {
 		guard let window = UIApplication.shared.windows.first else {
 			fatalError("Invalid Configuration") }
@@ -81,13 +67,12 @@ final class SplashViewController: UIViewController {
 	
 	func showAlert(with error: Error?) {
 		var message = "Не удалось войти в систему"
-		let isAdvancedAlertMode = false
-		
-		if let error = error {
-			if isAdvancedAlertMode {
-				message = error.localizedDescription
-			}
-		}
+//		let isAdvancedAlertMode = false // система показа текста реальной ошибки вместо дефолтного сообщения.
+//		if let error = error {
+//			if isAdvancedAlertMode {
+//				message = error.localizedDescription
+//			}
+//		}
 		
 		let alertController = UIAlertController(
 			title: "Что-то пошло не так(",
@@ -109,33 +94,32 @@ final class SplashViewController: UIViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
 	
+	// Функция запроса данных профиля
 	func fetchProfile(_ token: String, completeon: @escaping (Result<Profile, Error>) -> Void) {
-		
+		currentTask?.cancel()
+
 		guard let url = URL(string: "https://api.unsplash.com/me") else { return }
 		var request = URLRequest(url: url)
 		request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 		request.httpMethod = "GET"
 		
-		let task = URLSession.shared.dataTask(with: request) { data, response, error in
+		currentTask = URLSession.shared.dataTask(with: request) { data, response, error in
 			DispatchQueue.main.async {
-				guard let httpResponse = response as? HTTPURLResponse else {
+				if let error = error as NSError?, error.code == NSURLErrorCancelled {
+								// Обрабатываем ситуацию, когда задача была отменена
+								print("задача была отменена")
+								return
+							}
+				guard
+					let httpResponse = response as? HTTPURLResponse,
+					let data = data,
+					(200...299).contains(httpResponse.statusCode) else {
 					UIBlockingProgressHUD.dismiss()
 					self.showAlert(with: error)
-					completeon(.failure(error ?? NSError(domain: "There is no responce", code: 1, userInfo: nil)))
+					completeon(.failure(error ?? NSError(domain: "bad responce", code: 1, userInfo: nil)))
 					return
 				}
-				guard let data = data else {
-					UIBlockingProgressHUD.dismiss()
-					self.showAlert(with: error)
-					completeon(.failure(error ?? NSError(domain: "There is no data", code: 4, userInfo: nil)))
-					return
-				}
-				guard  (200...299).contains(httpResponse.statusCode) else {
-					UIBlockingProgressHUD.dismiss()
-					self.showAlert(with: error)
-					completeon(.failure(error ?? NSError(domain: "Bad status code.\nResponce is: \(httpResponse.statusCode)\n)", code: 2, userInfo: nil)))
-					return
-				}
+				
 				do {
 					let profileResponse = try JSONDecoder().decode(ProfileRowData.self, from: data)
 					let profile = profileResponse.convertData()
@@ -151,9 +135,8 @@ extension SplashViewController: AuthViewControllerDelegate {
 				}
 			}
 		}
-		task.resume()
+		currentTask?.resume()
 	}
-	
 	
 	func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
 		UIBlockingProgressHUD.show()

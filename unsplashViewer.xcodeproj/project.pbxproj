@@ -89,13 +89,13 @@
 		DE2017E229F852E3009C4976 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				DE3910B12A0C0EBF00D59AB3 /* SplashViewController.swift */,
 				DE7903872A081BCF00BDA691 /* OAuthTokenResponseBody.swift */,
 				DE7903892A081BF400BDA691 /* OAuth2Service.swift */,
 				DEDB4F2B2A214235004E2082 /* UIBlockingProgressHUD.swift */,
 				DE2017E029F850E2009C4976 /* AuthViewController.swift */,
 				DE79038B2A081C7200BDA691 /* OAuth2TokenStorage.swift */,
 				DE2017E329F85479009C4976 /* WebViewViewController.swift */,
-				DE3910B12A0C0EBF00D59AB3 /* SplashViewController.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";

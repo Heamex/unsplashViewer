@@ -11,6 +11,8 @@ import SwiftKeychainWrapper
 
 final class SplashViewController: UIViewController {
 	
+	private var imageView: UIImageView?
+	
 	private let ShowAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
 	private let ShowGalleryScreenSegueIdentifier = "ShowGalleryScreen"
 	private let oauth2Service = OAuth2Service()
@@ -40,7 +42,11 @@ final class SplashViewController: UIViewController {
 			}
 			
 		} else {
-			performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
+//			performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
+			let authViewController: AuthViewController = storyboard?.instantiateViewController(withIdentifier: "AuthViewController") as! AuthViewController
+			authViewController.delegate = self
+			authViewController.modalPresentationStyle = .fullScreen
+			self.present(authViewController, animated: true)
 		}
 	}
 	override func viewWillAppear(_ animated: Bool) {
@@ -52,18 +58,18 @@ final class SplashViewController: UIViewController {
 		.lightContent
 	}
 	
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if segue.identifier == ShowAuthenticationScreenSegueIdentifier {
-			guard
-				let navigationController = segue.destination as? UINavigationController,
-				let viewController = navigationController.viewControllers[0] as? AuthViewController
-			else { fatalError("Failed to prepare for \(ShowAuthenticationScreenSegueIdentifier)") }
-			viewController.delegate = self
-			navigationController.modalPresentationStyle = .fullScreen
-		} else {
-			super.prepare(for: segue, sender: sender)
-		}
-	}
+//	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//		if segue.identifier == ShowAuthenticationScreenSegueIdentifier {
+//			guard
+//				let navigationController = segue.destination as? UINavigationController,
+//				let viewController = navigationController.viewControllers[0] as? AuthViewController
+//			else { fatalError("Failed to prepare for \(ShowAuthenticationScreenSegueIdentifier)") }
+//			viewController.delegate = self
+//			navigationController.modalPresentationStyle = .fullScreen
+//		} else {
+//			super.prepare(for: segue, sender: sender)
+//		}
+//	}
 	
 	private func switchToTabBarController() {
 		guard let window = UIApplication.shared.windows.first else {
@@ -75,7 +81,7 @@ final class SplashViewController: UIViewController {
 	
 	func showAlert(with error: Error?) {
 		var message = "Не удалось войти в систему"
-		let isAdvancedAlertMode = true
+		let isAdvancedAlertMode = false
 		
 		if let error = error {
 			if isAdvancedAlertMode {
@@ -182,5 +188,23 @@ extension SplashViewController: AuthViewControllerDelegate {
 				break
 			}
 		}
+	}
+}
+// MARK: верстка кодом
+extension SplashViewController {
+	override func viewDidLoad() {
+		super.viewDidLoad()
+	}
+	private func drawImage() {
+		let imageview = UIImageView()
+		imageview.translatesAutoresizingMaskIntoConstraints = false
+		imageview.image = UIImage(named: "Practicum_logo")
+		self.view.addSubview(imageview)
+		
+		NSLayoutConstraint.activate([
+			imageview.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+			imageview.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+		])
+		self.imageView = imageview
 	}
 }

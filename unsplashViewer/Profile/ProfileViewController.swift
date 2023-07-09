@@ -6,6 +6,12 @@
 //
 
 import UIKit
+import Kingfisher
+
+protocol ProfileViewControllerDelegate: AnyObject {
+	func fetchProfile(_ token:String, completion: @escaping (Result<Profile, Error>) -> Void)
+}
+
 
 final class ProfileViewController: UIViewController {
 	
@@ -16,17 +22,54 @@ final class ProfileViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		crateProfileImage()
-		createNameLabel(name: "Екатерина Новикова")
-		createNicknameLabel(with: "@ekaterina_nov")
-		createUserInfoLabel(with: "Hello, world!")
+		createNameLabel(name: "******** ********")
+		createNicknameLabel(with: "@********")
+		createUserInfoLabel(with: "")
 		createExitButton()
+		delegate = ProfileService()
+		updateProfile(ProfileService.shared.profile)
+		profileImageServiceObserver = NotificationCenter.default
+			.addObserver(
+				forName: ProfileImageService.DidChangeNotification,
+				object: nil,
+				queue: .main
+			) { [weak self] _ in
+				guard let self = self else { return }
+				self.updateAvatar()
+			}
+		updateAvatar()
 	}
+	
+	private func updateAvatar() {
+		guard
+			let profileImageUrl = ProfileImageService.shared.avatarURL,
+			let url = URL(string: profileImageUrl)
+		else { return }
+		let processor = RoundCornerImageProcessor(cornerRadius: 70)
+		imageView.kf.setImage(with: url, options: [.processor(processor)])
+	}
+	
+	private var delegate: ProfileViewControllerDelegate?
+	private var authToken = OAuth2TokenStorage().token
+	private var splashViewController: SplashViewController?
+	private var profileImageService = ProfileImageService.shared
+	private var profileImageServiceObserver: NSObjectProtocol?
 	
 	private var imageView: UIImageView!
 	private var nameLabel: UILabel!
 	private var nickNameLabel: UILabel!
 	private var userInfoLabel: UILabel!
 	private var exitButton: UIButton!
+	
+	private func updateProfile(_ profile: Profile?) {
+		guard let profile = profile else { return }
+		self.nameLabel.text = profile.name
+		self.nickNameLabel.text = profile.loginName
+		self.userInfoLabel.text = profile.bio
+	}
+}
+// 		MARK: - Верстка экрана
+extension ProfileViewController {
 	
 	private func crateProfileImage() {
 		let imageView = UIImageView(image: UIImage(named: "user_photo"))
@@ -51,10 +94,9 @@ final class ProfileViewController: UIViewController {
 		nameLabel.textColor = .white
 		
 		NSLayoutConstraint.activate([
-//			nameLabel.widthAnchor.constraint(equalToConstant: 235), НА УДАЛЕНИЕ
-//			nameLabel.heightAnchor.constraint(equalToConstant: 18),
 			nameLabel.topAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: 8),
-			nameLabel.leadingAnchor.constraint(equalTo: self.imageView.leadingAnchor)])
+			nameLabel.leadingAnchor.constraint(equalTo: self.imageView.leadingAnchor),
+			nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)])
 		self.nameLabel = nameLabel
 	}
 	
@@ -69,7 +111,10 @@ final class ProfileViewController: UIViewController {
 		
 		NSLayoutConstraint.activate([
 			nickNameLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: 8),
-			nickNameLabel.leadingAnchor.constraint(equalTo: self.nameLabel.leadingAnchor)])
+			nickNameLabel.leadingAnchor.constraint(equalTo: self.nameLabel.leadingAnchor),
+			nickNameLabel .heightAnchor.constraint(equalToConstant: 20),
+			nickNameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+		])
 		self.nickNameLabel = nickNameLabel
 	}
 	
@@ -83,10 +128,9 @@ final class ProfileViewController: UIViewController {
 		userInfoLabel.textColor = .white
 		
 		NSLayoutConstraint.activate([
-//			userInfoLabel.widthAnchor.constraint(equalToConstant: 235), УДАЛИТЬ!!
-//			userInfoLabel.heightAnchor.constraint(equalToConstant: 18),
 			userInfoLabel.topAnchor.constraint(equalTo: self.nickNameLabel.bottomAnchor, constant: 8),
-			userInfoLabel.leadingAnchor.constraint(equalTo: self.nameLabel.leadingAnchor)])
+			userInfoLabel.leadingAnchor.constraint(equalTo: self.nameLabel.leadingAnchor),
+			userInfoLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)])
 		self.userInfoLabel = userInfoLabel
 	}
 	

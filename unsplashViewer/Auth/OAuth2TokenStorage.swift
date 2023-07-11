@@ -10,18 +10,16 @@ import SwiftKeychainWrapper
 
 class OAuth2TokenStorage {
 	
-	private let tokenKey = "OAuth2Token"
+	private let tokenKey: String? = nil
 	
 	var token: String? {
 		get {
 			let tokenFromKeychain: String? = KeychainWrapper.standard.string(forKey: "Auth token")
-			
 			print("** token has been taken **")
 			return tokenFromKeychain
 		}
 		set {
 			let saveSuccessful: Bool = KeychainWrapper.standard.set(newValue!, forKey: "Auth token")
-			
 			if saveSuccessful {
 				print("** token saved! **")
 			} else {

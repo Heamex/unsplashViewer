@@ -42,7 +42,8 @@ final class SplashViewController: UIViewController {
 			}
 			
 		} else {
-			let authViewController: AuthViewController = storyboard?.instantiateViewController(withIdentifier: "AuthViewController") as! AuthViewController
+			let main = UIStoryboard(name: "Main", bundle: .main)
+			let authViewController: AuthViewController = main.instantiateViewController(withIdentifier: "AuthViewController") as! AuthViewController
 			authViewController.delegate = self
 			authViewController.modalPresentationStyle = .fullScreen
 			self.present(authViewController, animated: true)
@@ -67,12 +68,9 @@ final class SplashViewController: UIViewController {
 	
 	func showAlert(with error: Error?) {
 		var message = "Не удалось войти в систему"
-//		let isAdvancedAlertMode = false // система показа текста реальной ошибки вместо дефолтного сообщения.
-//		if let error = error {
-//			if isAdvancedAlertMode {
-//				message = error.localizedDescription
-//			}
-//		}
+		if let error = error {
+			message = error.localizedDescription
+		}
 		
 		let alertController = UIAlertController(
 			title: "Что-то пошло не так(",

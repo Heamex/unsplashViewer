@@ -153,6 +153,6 @@ extension ProfileViewController {
 	}
 	
 	@objc private func exitButtonTapped() {
-		print("попытка выхода засчитана")
+		OAuth2TokenStorage().token = nil
 	}
 }

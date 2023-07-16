@@ -52,7 +52,7 @@ class OAuth2Service {
 					self?.lastCode = nil
 				completion(.failure(NSError(domain: "Не удалось получить токен для входа. Ошибка: \n\(error)", code: -1)))
 			case .success(let tokenResponse):
-				let token = tokenResponse.accessToken
+				let token: String = tokenResponse.accessToken
 				OAuth2TokenStorage().token = token
 				completion(.success(token))
 			}

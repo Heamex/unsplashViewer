@@ -26,7 +26,7 @@ struct ProfileRowData: Codable { // структура, в которую соб
 		
 		loginName = "@\(self.username)"
 		
-		let newData = Profile(name: name, loginName: loginName, bio: bio)
+		let newData = Profile(name: name, loginName: loginName, bio: bio, username: self.username)
 		return newData
 	}
 }
@@ -35,6 +35,7 @@ struct Profile { // структура, данные из которых зан�
 	let name: String
 	let loginName: String
 	let bio: String?
+	let username: String
 }
 
 final class ProfileService: ProfileViewControllerDelegate {
@@ -67,9 +68,11 @@ final class ProfileService: ProfileViewControllerDelegate {
 				let profile = profileResponse.convertData()
 				DispatchQueue.main.async {
 					self?.profile = profile
+					completion(.success(profile)) // возвращаем преобразованный профиль как результат
 				}
 			case .failure(let error):
 				print(error.localizedDescription)
+				completion(.failure(error)) // возвращаем ошибку как результат
 			}
 		})
 		task.resume()

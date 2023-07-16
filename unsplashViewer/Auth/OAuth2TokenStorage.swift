@@ -19,12 +19,18 @@ class OAuth2TokenStorage {
 			return tokenFromKeychain
 		}
 		set {
-			let saveSuccessful: Bool = KeychainWrapper.standard.set(newValue!, forKey: "Auth token")
-			if saveSuccessful {
-				print("** token saved! **")
+			if let newValue = newValue {
+				let saveSuccessful: Bool = KeychainWrapper.standard.set(newValue, forKey: "Auth token")
+				if saveSuccessful {
+					print("** token saved! **")
+				} else {
+					print("** error token saving! **")
+				}
 			} else {
-				print("** error token saving! **")
+				KeychainWrapper.standard.remove(forKey: "Auth token")
+				print(" ** Токен удалён **")
 			}
+			
 		}
 	}
 }

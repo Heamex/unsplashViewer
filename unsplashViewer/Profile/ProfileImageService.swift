@@ -37,8 +37,10 @@ final class ProfileImageService {
 			switch result {
 			case .success(let imageUrl):
 				self?.avatarURL = imageUrl.smallImage()
+				completion(.success(imageUrl.smallImage()))
 			case .failure(let error):
 				print("\(error.localizedDescription)")
+				completion(.failure(error))
 			}
 		})
 		
